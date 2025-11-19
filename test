@@ -1,0 +1,100 @@
+pipeline {
+    agent any
+
+    tools {
+        sonarQubeScanner 'sonar-scanner-7.1.0.4889'
+    }
+
+    environment {
+        SONARQUBE_SERVER = 'http://sonarqube-default.apps.cluster-lmbd4.dynamic.redhatworkshops.io'
+        SONARQUBE_TOKEN = 'sonarqube-token'
+        SONARQUBE_PROJECT_KEY = 'your_project_key'
+    }
+
+    parameters {
+        choice(name: 'Framework', choices: ['Auto', 'NodeJS', 'Python', 'Dotnet', 'Go'], description: 'Select a framework')
+        booleanParam(name: 'EnableScan', defaultValue: true, description: 'Enable Scan Code stage')
+    }
+
+    stages {
+        stage('Scan Code') {
+            when {
+                expression { params.EnableScan }
+            }
+            steps {
+                withCredentials([string(credentialsId: SONARQUBE_TOKEN, variable: 'TOKEN')]) {
+                    script {
+                        if (params.Framework == 'NodeJS') {
+                            echo 'Scan source code NodeJS application...'
+                            sh '
+                                sonar-scanner -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY \
+                                -Dsonar.sources=. \
+                                -Dsonar.host.url=$SONARQUBE_SERVER \
+                                -Dsonar.login=$TOKEN \
+                                '
+                        } else if (params.Framework == 'Python') {
+                            echo 'Scan source code Python application...'
+                            sh '
+                                sonar-scanner -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY \
+                                -Dsonar.sources=. \
+                                -Dsonar.host.url=$SONARQUBE_SERVER \
+                                -Dsonar.login=$TOKEN \
+                                '
+                        } else if (params.Framework == 'Dotnet') {
+                            echo 'Scan source code Dotnet application...'
+                            sh 'dotnet sonarscanner begin /k:"$SONARQUBE_PROJECT_KEY" /d:sonar.host.url="$SONARQUBE_SERVER" /d:sonar.login="$TOKEN"'
+                            sh 'dotnet build'
+                            sh 'dotnet sonarscanner end /d:sonar.login="$TOKEN"'
+                        } else if (params.Framework == 'Go') {
+                            echo 'Scan source code Go application...'
+                            sh 'sonar-scanner -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY \
+                                -Dsonar.sources=. \
+                                -Dsonar.host.url=$SONARQUBE_SERVER \
+                                -Dsonar.login=$TOKEN \
+                                '
+                        } else if (params.Framework == 'Auto') {
+                            if (fileExists('package.json')) {
+                                echo 'Detected NodeJS project. Scan source code NodeJS application...'
+                                sh '
+                                    sonar-scanner -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY \
+                                    -Dsonar.sources=. \
+                                    -Dsonar.host.url=$SONARQUBE_SERVER \
+                                    -Dsonar.login=$TOKEN \
+                                    '
+                            } else if (fileExists('requirements.txt')) {
+                                echo 'Detected Python project. Scan source code Python application...'
+                                sh '
+                                    sonar-scanner -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY \
+                                    -Dsonar.sources=. \
+                                    -Dsonar.host.url=$SONARQUBE_SERVER \
+                                    -Dsonar.login=$TOKEN \
+                                    '
+                            } else if (fileExists('*.csproj')) {
+                                echo 'Detected Dotnet project. Scan source code Dotnet application...'
+                                sh 'dotnet sonarscanner begin /k:"$SONARQUBE_PROJECT_KEY" /d:sonar.host.url="$SONARQUBE_SERVER" /d:sonar.login="$TOKEN"'
+                                sh 'dotnet build'
+                                sh 'dotnet sonarscanner end /d:sonar.login="$TOKEN"'
+                            } else if (fileExists('go.mod')) {
+                                echo 'Detected Go project. Scan source code Go application...'
+                                sh 'sonar-scanner -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY \
+                                    -Dsonar.sources=. \
+                                    -Dsonar.host.url=$SONARQUBE_SERVER \
+                                    -Dsonar.login=$TOKEN \
+                                    '
+                            } else {
+                                error 'Unable to detect project type. Please specify the framework manually.'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        stage('Qulity Gate') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+    }
+}

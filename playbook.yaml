@@ -1,0 +1,7 @@
+---
+- name: Script PM
+  hosts: DC
+  become: true
+  # become_user: oracle
+  roles:
+    - script_pm

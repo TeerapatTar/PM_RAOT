@@ -1,0 +1,46 @@
+---
+# - name: SSH Key
+#   ansible.builtin.expect:
+#     command: "ssh-copy-id root@{{ item }}"
+#     responses:
+#       "Are you sure you want to continue connecting (yes/no/[fingerprint])?": "yes"
+#       "root@{{ item }}'s password:": "{{ wtf }}"
+# "sshpass -p 'RAOT@2022' ssh-copy-id -o StrictHostKeyChecking=no root@{{ item }}"
+- name: SSH Key
+  ansible.builtin.command: "sshpass -p 'WEB@mgmt#r00t' ssh-copy-id -o StrictHostKeyChecking=no root@{{ item }}"
+  loop:
+  # - 10.99.71.42
+  # - 10.99.71.54
+  # - 10.99.71.61
+  # - 10.99.71.43
+  # - 10.99.71.44
+  # - 10.99.71.60
+  # - 10.99.71.53
+  # - 10.99.71.52
+  # - 10.99.71.46
+  # - 10.99.71.47
+  # - 10.99.71.55
+  # - 10.99.71.49
+  # - 10.99.71.56
+  # - 10.99.71.57
+  # - 10.99.71.50
+  # - 10.99.71.58
+  # - 10.99.71.51
+  # - 10.99.71.59
+  - 10.99.71.18
+  # - 10.99.71.19
+  # - 10.99.76.29
+  # - 10.99.71.35
+  # - 10.99.71.28
+  # - 10.99.71.27
+  # - 10.99.71.21
+  # - 10.99.71.22
+  # - 10.99.71.30
+  # - 10.99.71.24
+  # - 10.99.71.31
+  # - 10.99.71.32
+  # - 10.99.71.25
+  # - 10.99.71.33
+  # - 10.99.71.26
+  # - 10.99.71.34
+  changed_when: true

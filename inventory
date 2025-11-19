@@ -1,0 +1,111 @@
+############### UAT #######################
+blockchain1uat  ansible_host=10.99.71.17
+blockchain2uat  ansible_host=10.99.71.29
+blockchain3uat  ansible_host=10.99.71.36
+webserver1uat   ansible_host=10.99.20.48
+webserver2uat   ansible_host=10.99.20.49
+sonarqube-1uat  ansible_host=10.99.76.29
+gitlabuat       ansible_host=10.99.71.35
+jenkinsuat      ansible_host=10.99.71.28
+elkuat          ansible_host=10.99.71.27
+k8smaster1uat   ansible_host=10.99.71.21
+k8smaster2uat   ansible_host=10.99.71.22
+k8smaster3uat   ansible_host=10.99.71.30
+k8sworker1uat   ansible_host=10.99.71.24
+k8sworker2uat   ansible_host=10.99.71.31
+k8sworker3uat   ansible_host=10.99.71.32
+infra1uat       ansible_host=10.99.71.25
+infra2uat       ansible_host=10.99.71.33
+monitor1uat     ansible_host=10.99.71.26
+monitor2uat     ansible_host=10.99.71.34
+
+############### DC #######################
+# blockchain1DC   ansible_host=10.99.71.42 ansible_user=oracle
+# blockchain2DC   ansible_host=10.99.71.54 ansible_user=oracle
+# blockchain3DC   ansible_host=10.99.71.61 ansible_user=oracle
+webserver1DC    ansible_host=10.99.71.43
+webserver2DC    ansible_host=10.99.71.44
+gitlabDC        ansible_host=10.99.71.60
+jenkinsDC       ansible_host=10.99.71.53
+elkDC           ansible_host=10.99.71.52
+k8smaster1DC    ansible_host=10.99.71.46
+k8smaster2DC    ansible_host=10.99.71.47
+k8smaster3DC    ansible_host=10.99.71.55
+k8sworker1DC    ansible_host=10.99.71.49
+k8sworker2DC    ansible_host=10.99.71.56
+k8sworker3DC    ansible_host=10.99.71.57
+infra1DC        ansible_host=10.99.71.50
+infra2DC        ansible_host=10.99.71.58
+monitor1DC      ansible_host=10.99.71.51
+monitor2DC      ansible_host=10.99.71.59
+
+############### DR #######################
+webserver1DR    ansible_host=10.99.71.98
+webserver2DR    ansible_host=10.99.71.99
+# gitlabDR      ansible_host=10.99.71.60
+# jenkinsDR     ansible_host=10.99.71.53
+elkDR           ansible_host=10.99.71.101
+k8smaster1DR    ansible_host=10.99.71.90
+k8smaster2DR    ansible_host=10.99.71.91
+k8smaster3DR    ansible_host=10.99.71.92
+k8sworker1DR    ansible_host=10.99.71.93
+k8sworker2DR    ansible_host=10.99.71.94
+k8sworker3DR    ansible_host=10.99.71.95
+inframonitor1DR ansible_host=10.99.71.96
+inframonitor2DR ansible_host=10.99.71.97
+
+[UAT]
+# blockchain1uat
+# blockchain2uat
+# blockchain3uat
+webserver1uat 
+webserver2uat 
+sonarqube-1uat
+gitlabuat     
+jenkinsuat    
+elkuat        
+k8smaster1uat 
+k8smaster2uat 
+k8smaster3uat 
+k8sworker1uat 
+k8sworker2uat 
+k8sworker3uat 
+infra1uat     
+infra2uat     
+monitor1uat   
+monitor2uat
+
+[DC]
+# blockchain1DC   
+# blockchain2DC   
+# blockchain3DC   
+webserver1DC    
+webserver2DC    
+gitlabDC        
+jenkinsDC       
+elkDC           
+k8smaster1DC    
+k8smaster2DC    
+k8smaster3DC    
+k8sworker1DC    
+k8sworker2DC    
+k8sworker3DC    
+infra1DC        
+infra2DC        
+monitor1DC      
+monitor2DC
+
+[DR]
+webserver1DR    
+webserver2DR    
+# gitlabDR      
+# jenkinsDR     
+elkDR           
+k8smaster1DR    
+k8smaster2DR    
+k8smaster3DR    
+k8sworker1DR    
+k8sworker2DR    
+k8sworker3DR    
+inframonitor1DR 
+inframonitor2DR 
